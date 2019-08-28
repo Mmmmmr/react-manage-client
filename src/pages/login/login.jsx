@@ -3,15 +3,19 @@ import './login.less'
 import logo from './images/logo.png'
 import { Form, Icon, Input, Button } from 'antd'
 
+import ajax from '../../api/ajax'
 
 class Login extends Component {
     handleSubmit = e => {
         e.preventDefault()
 
-
         this.props.form.validateFields((error, values) => {
             if (!error) {
-                console.log('Received values of form: ', values);
+                ajax('http://localhost:5000/login', {username: '123', password: '456'}).then(res => {
+                    console.log(res)
+                }).catch(error => {
+                    console.log(error)
+                })
             }
         })
     };
