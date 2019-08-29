@@ -1,7 +1,7 @@
 import React, {Component}  from 'react'
 import './login.less'
 import logo from './images/logo.png'
-import { Form, Icon, Input, Button } from 'antd'
+import { Form, Icon, Input, Button, message } from 'antd'
 
 import ajax from '../../api/ajax'
 
@@ -9,17 +9,19 @@ class Login extends Component {
     handleSubmit = e => {
         e.preventDefault()
 
-        this.props.form.validateFields((error, values) => {
+        this.props.form.validateFields(async (error, values) => {
+            const {username, password} = values
             if (!error) {
-                ajax('http://localhost:5000/login', {username: '123', password: '456'}).then(res => {
+                const res = await ajax('/login', {username: username, password: password}, 'POST')
+                if(res.status === 0) {
                     console.log(res)
-                }).catch(error => {
-                    console.log(error)
-                })
+                }else if(res.status === 1){
+                    message.error(res.msg)
+                }
             }
         })
-    };
 
+    }
     validatePwd = (rule, value, callback) => {
 
         if(!value) {
