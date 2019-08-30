@@ -2,7 +2,9 @@ import React, {Component}  from 'react'
 import './login.less'
 import logo from './images/logo.png'
 import { Form, Icon, Input, Button, message } from 'antd'
-
+import memoryUtils from "../../utils/memoryUtils";
+import storageUtils from "../../utils/storageUtils";
+import { Redirect } from 'react-router-dom'
 import ajax from '../../api/ajax'
 
 class Login extends Component {
@@ -14,7 +16,12 @@ class Login extends Component {
             if (!error) {
                 const res = await ajax('/login', {username: username, password: password}, 'POST')
                 if(res.status === 0) {
-                    console.log(res)
+                    message.success('登陆成功')
+                    memoryUtils.user = res.data
+                    storageUtils.saveUser(res.data)
+                    this.props.history.replace('/')
+
+
                 }else if(res.status === 1){
                     message.error(res.msg)
                 }
@@ -38,7 +45,9 @@ class Login extends Component {
     }
   render(){
       const from = this.props.form;
-
+    if(memoryUtils.user && memoryUtils.user._id){
+        return <Redirect path='/'/>
+    }
     return (
       <div className='login'>
         <header className='login-header'>
@@ -67,8 +76,8 @@ class Login extends Component {
                             rules: [{validator: this.validatePwd}]
 
                         })( <Input
-                            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                            placeholder="密码"
+                            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                            placeholder="密码" type='password'
                         />)
                     }
                 </Form.Item>
