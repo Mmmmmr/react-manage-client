@@ -7,6 +7,6 @@ import App from './app'
 
 const user = storageUtils.getUser()
 memoryUtils.user = user
-console.log(memoryUtils.user)
+
 
 ReactDOM.render(<App />, document.getElementById('root'))
