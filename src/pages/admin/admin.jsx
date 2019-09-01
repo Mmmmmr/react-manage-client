@@ -12,8 +12,9 @@ import Bar from '../charts/bar'
 import Line from '../charts/line'
 import Pie from '../charts/pie'
 import Order from '../order/order'
+import Header from '../../components/header'
 
-const { Header, Footer, Sider, Content } = Layout;
+const {  Footer, Sider, Content } = Layout;
 
 export default class Admin extends Component {
 
@@ -24,7 +25,7 @@ export default class Admin extends Component {
             <LeftNav></LeftNav>
           </Sider>
           <Layout>
-            <Header>Header</Header>
+            <Header></Header>
             <Content>
                 <Switch>
                         <Redirect from='/' exact to='/home'/>
